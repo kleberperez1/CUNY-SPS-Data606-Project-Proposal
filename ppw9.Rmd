@@ -1,0 +1,282 @@
+---
+# title: "DATA 606 - PROJECT PROPOSAL"
+# author: "[Kleber Perez - `r format(Sys.Date(), '%B %d, %Y')`](https://www.linkedin.com/in/kleberperez/)"
+output: 
+  html_document:
+    code_folding: show
+    theme: sandstone
+    highlight: pygments
+    css: ./pcss.css
+---
+
+<div class="jumbotron jumbotron-fluid">
+  <div class="btn btn-default btn-block">
+  <br />
+  
+  <p><a class="label label-info" href="https://www.linkedin.com/in/kleberperez/" target="_blank" role="button">KLEBER PEREZ</a></p>
+  <p class="lead">DATA 606 - PROJECT PROPOSAL <br />
+  SOURCE FILES AND RMARKDOWN ON 
+   <a class="label label-warning" href="http://rpubs.com/kleberperez/481026" target="_blank" role="button">RPUBS</a>
+   AND 
+   <a class="label label-success" href="https://github.com/kleberperez1/CUNY-SPS-Data607-Week9-Assignment" target="_blank" role="button">GITHUB</a>
+  </p>
+  
+  <br />
+  
+  </div>
+</div>
+
+<br />
+
+
+### Load Libraries 
+```{r setup, echo=TRUE, results='hide', warning=FALSE, message=FALSE}
+# load libraries
+
+library(kableExtra)
+#suppressMessages(suppressWarnings(library(tidyverse)))
+library(tidyr)
+library(dplyr)
+library(psych)
+library(stringr)
+
+```
+
+
+### Data Wrangling 
+> Data source from fivethirtyeight github repo
+
+```{r}
+# Load data and Subset data by category 
+url1 <- "https://raw.githubusercontent.com/kleberperez1/CUNY-SPS-Data606-Project-Proposal/master/all_ages.csv"
+all_ages <- url1 %>% 
+  read.csv(stringsAsFactors = FALSE) %>% 
+  tbl_df() %>% 
+  arrange(Major_category)
+
+kable(head(all_ages, 20)) %>%
+  kable_styling("striped", "hovered", font_size = 12) %>%
+  scroll_box(height = "500px")
+
+```
+
+### Subset by Category
+```{r}
+# Subsetting by Major Category 
+all_ages_ag <- all_ages %>% 
+  filter(Major_category == "Agriculture & Natural Resources")
+
+kable(head(all_ages_ag, 20)) %>%
+  kable_styling("striped", "hovered", font_size = 12) %>%
+  scroll_box(height = "500px")
+
+```
+
+### Apply Filter 
+```{r}
+# Apply Filter on category 
+value_list <- c("Arts", "Biology & Life Science", "Business") #, "Communications & Journalism", "Computers & Mathematics", 
+                #"Education", "Engineering", "Health", "Humanities & Liberal Arts", "Industrial Arts & Consumer Services", 
+                #"Law & Public Policy", "Physical Sciences", "Psychology & Social Work", "Social Science")
+all_ages_value <- all_ages %>% 
+  filter(Major_category %in% value_list)
+
+kable(all_ages_value) %>%
+  kable_styling("striped", "hovered", font_size = 12) %>%
+  scroll_box(height = "500px")
+
+```
+
+### Graduate Students 
+```{r}
+# Load graduate students file and subset data
+
+url2 <- "https://raw.githubusercontent.com/kleberperez1/CUNY-SPS-Data606-Project-Proposal/master/grad_students.csv"
+grad_stdnt <- url2 %>% read.csv(stringsAsFactors = FALSE) %>% tbl_df() %>% arrange(Major_category)
+
+grad_ag <- grad_stdnt %>% 
+  filter(Major_category == "Agriculture & Natural Resources")
+
+kable(head(grad_ag, 20)) %>%
+  kable_styling("striped", "hovered", font_size = 12) %>%
+  scroll_box(height = "500px")
+
+```
+
+### Recent Graduates 
+```{r}
+# Load graduate students file and subset data
+url3 <- "https://raw.githubusercontent.com/kleberperez1/CUNY-SPS-Data606-Project-Proposal/master/recent_grads.csv"
+rct_grad <- url3 %>% read.csv(stringsAsFactors = FALSE) %>% tbl_df() %>% arrange(Major_category)
+
+rct_ag <- rct_grad %>% 
+  filter(Major_category == "Agriculture & Natural Resources")
+
+kable(head(rct_ag, 20)) %>%
+  kable_styling("striped", "hovered", font_size = 12) %>%
+  scroll_box(height = "500px")
+
+```
+
+<!-- <div class="jumbotron jumbotron-fluid"> -->
+<!--   <div class="btn btn-default btn-block"> -->
+
+### Research question 
+<div class="alert alert-info" role="alert">
+Which college majors offer the best opportunities in terms of unemployment rate and salary?
+</div>
+
+### Cases 
+<div class="alert alert-info" role="alert">
+
+All_ages - 
+Each case represents majors offered by colleges and universities in the US. There are 173 majors represented. These data include both undergrads and grad students.
+<br />
+
+Grad Students - 
+Each case represents majors offered by colleges and universities in the US. There are 173 majors represented. These data include only grad students aged 25+ years.
+<br />
+
+Recent Grads - 
+Each case represents majors offered by colleges and universities in the US. There are 173 majors represented. These data include only undergraduate students aged < 28 years. These data also include gender statistics.
+
+</div>
+
+### Data collection 
+<div class="alert alert-info" role="alert">
+
+These Data were collated by the <a class="label label-default" href="http://www.fivethirtyeight.com" target="_blank" role="button">fivethirtyeight</a> website and was posted to their github page <a class="label label-default"  href="https://github.com/fivethirtyeight/data/tree/master/college-major" target="_blank" role="button">college major</a>. 
+
+</div>
+
+### Type of study 
+<div class="alert alert-info" role="alert">
+
+This is an observational Study
+
+</div>
+
+### Explanatory Variables
+<div class="alert alert-info" role="alert">
+
+The explanatory variables are the counts of employed and unemployed college degree holders and the statistics of their income. These data are numerical.
+
+</div>
+
+### Relevant summary statistics 
+<div class="alert alert-default" role="alert">
+
+First we will look at overall unemployment rate for the 3 categories: all ages, recent grads, and grad students.
+
+```{r}
+summary(all_ages$Unemployment_rate)
+summary(rct_grad$Unemployment_rate)
+summary(grad_stdnt$Grad_unemployment_rate)
+DT::datatable(summary(all_ages), options = list(pageLength = 7)) 
+DT::datatable(summary(all_ages_ag), list(pageLength = 7)) 
+DT::datatable(summary(rct_grad), list(pageLength = 7)) 
+
+```
+
+</div>
+
+### Unemployment Rate 
+
+```{r}
+unempl <- cbind(all_ages$Unemployment_rate, rct_grad$Unemployment_rate, grad_stdnt$Grad_unemployment_rate)
+barplot(unempl/nrow(unempl), names.arg = c("All", "Recent Grad", "Grad Student"), 
+        xlab = "Unemployment Rate", col = heat.colors(nrow(unempl)))
+
+```
+
+<div class="alert alert-info" role="alert">
+
+It appears that people holding only a Bachelor's degree have nearly twice as high median unemployment as those with higher degrees. <br />
+We will also look at median income for the three categories.
+
+</div>
+
+### Median Income by Major All Ages (USD)
+
+```{r}
+summary(all_ages$Median)
+colors = c("red", "yellow", "green", "violet", "orange", "blue", "pink", "cyan")
+hist(all_ages$Median, main = "Histogram for Median Income All Ages", 
+     xlab = "Median Income by Major All Ages (USD)", col = colors)
+
+```
+
+### Median Income by Major Recent Graduates (USD)
+
+```{r}
+options(scipen = 999) 
+summary(rct_grad$Median)
+hist(rct_grad$Median, main = "Histogram for Median Income Recent Grads", 
+     xlab = "Median Income by Major Recent Grads (USD)", col = colors)
+
+```
+
+### Median Income by Graduate Students (USD)
+
+```{r}
+summary(grad_stdnt$Grad_median)
+hist(grad_stdnt$Grad_median, main = "Histogram for Median Income Grad Students", 
+     xlab = "Median Income by Major Grad Student (USD)", col = colors)
+
+```
+
+### All, Recent Graduate and Graduate Students Median Salary
+```{r}
+medsal <- cbind(all_ages$Median, rct_grad$Median, grad_stdnt$Grad_median)
+barplot(medsal/nrow(medsal), names.arg = c("All", "Recent Grad", "Grad Student"), 
+        xlab = "Median Salary", col = heat.colors(nrow(unempl)))
+
+```
+
+
+<br /><br /><br /><br />
+
+
+<div class="jumbotron jumbotron-fluid">
+  <div class="btn btn-default btn-block">
+  <br />
+  
+  <p><a class="label label-info" href="https://www.linkedin.com/in/kleberperez/" target="_blank" role="button">KLEBER PEREZ</a></p>
+  <p class="lead">DATA 606 - PROJECT PROPOSAL <br />
+  SOURCE FILES AND RMARKDOWN ON 
+   <a class="label label-warning" href="http://rpubs.com/kleberperez/481026" target="_blank" role="button">RPUBS</a>
+   AND 
+   <a class="label label-success" href="https://github.com/kleberperez1/CUNY-SPS-Data607-Week9-Assignment" target="_blank" role="button">GITHUB</a>
+  </p>
+  
+  <br />
+  
+  </div>
+</div>
+
+<br /><br />
+
+> *Please email to: * <a href="mailto:kleber.perez@live.com">Kleber Perez</a> *for any suggestion.*
+
+<footer class="border-top text-muted fixed-bottom">
+
+        DATA 606 PROJECT PROPOSAL - MSDS 2019 Program.
+
+</footer>
+
+\textbf{Text ignored: END of other links}
+
+<br />
+<br />
+<br />
+
+
+
+
+
+
+
+
+
+
+
