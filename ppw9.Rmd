@@ -239,7 +239,11 @@ barplot(medsal/nrow(medsal), names.arg = c("All", "Recent Grad", "Grad Student")
 ```
 
 
-<br /><br /><br /><br />
+<br /><br />
+
+* * * 
+
+<br /><br />
 
 
 <div class="jumbotron jumbotron-fluid">
