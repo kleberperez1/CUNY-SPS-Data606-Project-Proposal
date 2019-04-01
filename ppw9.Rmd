@@ -16,9 +16,9 @@ output:
   <p><a class="label label-info" href="https://www.linkedin.com/in/kleberperez/" target="_blank" role="button">KLEBER PEREZ</a></p>
   <p class="lead">DATA 606 - PROJECT PROPOSAL <br />
   SOURCE FILES AND RMARKDOWN ON 
-   <a class="label label-warning" href="http://rpubs.com/kleberperez/481026" target="_blank" role="button">RPUBS</a>
+   <a class="label label-warning" href="http://rpubs.com/kleberperez/482016" target="_blank" role="button">RPUBS</a>
    AND 
-   <a class="label label-success" href="https://github.com/kleberperez1/CUNY-SPS-Data607-Week9-Assignment" target="_blank" role="button">GITHUB</a>
+   <a class="label label-success" href="https://github.com/kleberperez1/CUNY-SPS-Data606-Project-Proposal" target="_blank" role="button">GITHUB</a>
   </p>
   
   <br />
@@ -44,7 +44,11 @@ library(stringr)
 
 
 ### Data Wrangling 
-> Data source from fivethirtyeight github repo
+<div class="alert alert-info" role="alert">
+
+Data source from <a class="label label-default" href="http://www.fivethirtyeight.com" target="_blank" role="button">fivethirtyeight</a> and <a class="label label-default"https://github.com/fivethirtyeight/data/tree/master/college-majors" target="_blank" role="button">github</a>.
+
+</div>
 
 ```{r}
 # Load data and Subset data by category 
@@ -164,9 +168,11 @@ The explanatory variables are the counts of employed and unemployed college degr
 </div>
 
 ### Relevant summary statistics 
-<div class="alert alert-default" role="alert">
+<div class="alert alert-info" role="alert">
 
 First we will look at overall unemployment rate for the 3 categories: all ages, recent grads, and grad students.
+
+</div>
 
 ```{r}
 summary(all_ages$Unemployment_rate)
@@ -178,7 +184,6 @@ DT::datatable(summary(rct_grad), list(pageLength = 7))
 
 ```
 
-</div>
 
 ### Unemployment Rate 
 
@@ -244,9 +249,9 @@ barplot(medsal/nrow(medsal), names.arg = c("All", "Recent Grad", "Grad Student")
   <p><a class="label label-info" href="https://www.linkedin.com/in/kleberperez/" target="_blank" role="button">KLEBER PEREZ</a></p>
   <p class="lead">DATA 606 - PROJECT PROPOSAL <br />
   SOURCE FILES AND RMARKDOWN ON 
-   <a class="label label-warning" href="http://rpubs.com/kleberperez/481026" target="_blank" role="button">RPUBS</a>
+   <a class="label label-warning" href="http://rpubs.com/kleberperez/482016" target="_blank" role="button">RPUBS</a>
    AND 
-   <a class="label label-success" href="https://github.com/kleberperez1/CUNY-SPS-Data607-Week9-Assignment" target="_blank" role="button">GITHUB</a>
+   <a class="label label-success" href="https://github.com/kleberperez1/CUNY-SPS-Data606-Project-Proposal" target="_blank" role="button">GITHUB</a>
   </p>
   
   <br />
